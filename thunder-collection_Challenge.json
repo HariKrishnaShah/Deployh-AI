@@ -1,0 +1,62 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Challenge",
+    "dateExported": "2024-04-07T09:33:53.777Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "67242fbc-468f-4f32-a816-7156c0fda3bb",
+            "colId": "ebcc6d8e-2bfe-4f38-bddf-0df20696051b",
+            "containerId": "",
+            "name": "Upload",
+            "url": "http://localhost:4000/fileupload",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-04-07T06:27:33.632Z",
+            "modified": "2024-04-07T07:50:55.714Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [],
+                "files": [
+                    {
+                        "name": "pdf",
+                        "value": "c:\\Users\\hkssh\\Downloads\\burp 1.pdf"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "275c41c6-8785-4925-b730-29b62c5c5ec3",
+            "colId": "ebcc6d8e-2bfe-4f38-bddf-0df20696051b",
+            "containerId": "",
+            "name": "Executive Query",
+            "url": "http://localhost:4000/query/executive",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-04-07T07:47:07.795Z",
+            "modified": "2024-04-07T07:47:23.976Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "725917b6-c9ff-4a0b-bb6b-e64deb05aa8e",
+            "colId": "ebcc6d8e-2bfe-4f38-bddf-0df20696051b",
+            "containerId": "",
+            "name": "Download ppt",
+            "url": "http://localhost:4000/download",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-04-07T08:58:08.982Z",
+            "modified": "2024-04-07T08:58:33.167Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

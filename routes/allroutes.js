@@ -159,7 +159,6 @@ return res.json(result);
 
 router.get("/download", async (req, res) => {
     try {
-        let slide = pptx.addSlide();
 
         // Make a GET request to fetch data from the API
         const response = await axios.get("http://localhost:4000/query/executive");
@@ -173,7 +172,7 @@ router.get("/download", async (req, res) => {
 
             // Create a new PowerPoint presentation
             const pptx = new pptxgen();
-
+            let slide = pptx.addSlide();
             // Add a slide with a chart showing severity levels
             const chartData = [
                 { name: 'High Severity', labels: ['High Severity'], values: [parseInt(severity.highSeverity)], barColor: 'FF0000' },

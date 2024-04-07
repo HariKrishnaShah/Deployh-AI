@@ -4,6 +4,7 @@ const multer = require("multer");
 const fs = require("fs");
 const axios = require("axios");
 const FormData = require("form-data");
+const pptxgen = require('pptxgenjs');
 
 const formData = new FormData();
 formData.append(
@@ -156,16 +157,70 @@ return res.json(result);
 
 })
 
-router.get("/download", async(req, res) => {
+router.get("/download", async (req, res) => {
     try {
-        // Make a GET request to fetch data
-        let response = await axios.get("http://localhost:4000/query/executive");
-        
+        let slide = pptx.addSlide();
+
+        // Make a GET request to fetch data from the API
+        const response = await axios.get("http://localhost:4000/query/executive");
+
         // Check if the request was successful
         if (response.status === 200) {
-            let data = response.data;
-            // Send the JSON response
-            return res.json(response.data);
+            // Extract data from the response
+            const data = await response.data;
+            let {severity, keyFindinds, recommendation, conclusion} = data;
+            keyFindinds = keyFindinds.join('\n');
+
+            // Create a new PowerPoint presentation
+            const pptx = new pptxgen();
+
+            // Add a slide with a chart showing severity levels
+            const chartData = [
+                { name: 'High Severity', labels: ['High Severity'], values: [parseInt(severity.highSeverity)], barColor: 'FF0000' },
+                { name: 'Medium Severity', labels: ['Medium Severity'], values: [parseInt(severity.mediumSeverity)], barColor: 'FFA500' },
+                { name: 'Low Severity', labels: ['Low Severity'], values: [parseInt(severity.lowSeverity)], barColor: 'FFFF00' }
+            ];
+
+            // Add a slide with recommendation and conclusion
+            slide.addText(`${keyFindinds}`, {
+                x: 0,
+                y: 1,
+                w: "100%",
+                h: 2,
+                align: "center",
+                color: "0088CC",
+                fill: "F1F1F1",
+                fontSize: 24,
+            });
+            slide.addText(`${recommendation}`, {
+                x: 0,
+                y: 1,
+                w: "100%",
+                h: 2,
+                align: "center",
+                color: "0088CC",
+                fill: "F1F1F1",
+                fontSize: 24,
+            });
+            slide.addText(`${conclusion}`, {
+                x: 0,
+                y: 1,
+                w: "100%",
+                h: 2,
+                align: "center",
+                color: "0088CC",
+                fill: "F1F1F1",
+                fontSize: 24,
+            });
+            // Generate the PPT file
+            const pptxBlob = await pptx.writeFile({ fileName: "Final Report" });
+
+            // Set the appropriate headers for the download
+            res.setHeader('Content-Disposition', 'attachment; filename=report.pptx');
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+
+            // Send the PPT file as a response
+            return res.send(pptxBlob);
         } else {
             // Handle the case where the request was not successful
             return res.status(response.status).json({ error: 'Request failed.' });
@@ -176,6 +231,5 @@ router.get("/download", async(req, res) => {
         return res.status(500).json({ error: 'Internal server error.' });
     }
 });
-
 
 module.exports = router;
